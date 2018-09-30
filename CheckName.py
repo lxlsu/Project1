@@ -52,7 +52,6 @@ dict1 = {'Name': 'Zara', 'Age': 7}
 #         print(idChar, number, sep='')  //可去除空格
 #     else:
 #         print('ID:0')
-
 # from math import sqrt
 # for n in range(99,0,-1):
 #     root = sqrt(n)
