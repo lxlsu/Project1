@@ -1,3 +1,5 @@
+import random
+
 # people = {
 #     'Alice':{
 #         'phone': '2345',
@@ -241,3 +243,90 @@ class CounterList(list):
 
 c1 = CounterList(range(0, 10, 2))
 print(c1)
+
+
+# 静态方法和类方法
+# 装饰器
+class Myclass:
+
+    @staticmethod         # 静态方法包装在staticmethod类的对象中
+    def smeth():
+        print("This is a static method")
+
+    @classmethod         # 类方法包装在classmethod类的对象中
+    def cmeth(cls):
+        print("This is a class method of", cls)
+
+
+Myclass.smeth()
+Myclass.cmeth()
+
+
+class Fibs:
+    def __init__(self):
+        self.a = 0
+        self.b = 1
+
+    def __next__(self):
+        self.a, self.b = self.b, self.a + self.b
+        return self.a
+
+    def __iter__(self):
+        return self
+
+
+def flatten(nested):
+    for sublist in nested:
+        for element in sublist:
+            yield element
+
+
+nested = [[1, 2, 3], [4, 5], [8,10]]
+for num in flatten(nested):
+    print(num)
+
+
+# 八皇后问题
+def conflict(state, nextX):
+    nextY = len(state)
+
+    for i in range(nextY):
+
+        if abs(state[i] - nextX) in (0, nextY - i):
+            return True
+
+    return False
+
+
+def queens(num = 8, state = ()):
+    for pos in range(num):
+        if not conflict(state, pos):
+            if len(state) == num - 1:
+                yield (pos,)
+            else:       # 递归
+                for result in queens(num, state + (pos,)):
+                    yield (pos,) + result
+
+
+def prettyprint(solution):
+    def line(pos, length=len(solution)):
+        return '. ' * (pos) + 'X ' + '. ' * (length-pos-1)
+    for pos in solution:
+        print(line(pos))
+
+
+prettyprint(random.choice(list(queens(8))))
+
+'''
+def queens(num, state):
+    if len(state) == num - 1:
+        for pos in range(num):
+            if not conflict(state, pos):
+                yield pos
+            else:
+                for pos in range(num):
+                    if not conflict(state, pos):
+                        for result in queens(num, state + (pos,)):
+                            yield (pos,) + result
+'''
+
